@@ -154,7 +154,7 @@ export function showLanding({ onPlay, onCoop, files }) {
     }, (err) => { state.textContent = `Could not get the game files: ${err.message}.`; state.style.color = '#ff8a8a'; });
   } else {
     // a static site, GTA2 not yet in this browser: Play gets it (once) from the Internet Archive
-    state.textContent = 'Play downloads GTA2 once from the Internet Archive (free, 362 MB) and keeps it in this browser.';
+    state.textContent = 'Play downloads GTA2 once from the Internet Archive (free, 346 MB) and keeps it in this browser.';
     bar.hidden = true;
   }
 }

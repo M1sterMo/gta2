@@ -62,7 +62,7 @@ let buildPromise = null;
 /** This build's identity: the SHA-256 of gta2.wasm (the snapshot's memory layout depends on it). */
 function buildId() {
   if (!buildPromise) {
-    buildPromise = fetch(new URL('gta2.wasm?v=855995e961', import.meta.url))
+    buildPromise = fetch(new URL('gta2.wasm?v=90480c12f2', import.meta.url))
       .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(new Error(`gta2.wasm: HTTP ${r.status}`))))
       .then((buf) => crypto.subtle.digest('SHA-256', buf))
       .then((d) => Array.from(new Uint8Array(d).slice(0, 12), (b) => b.toString(16).padStart(2, '0')).join(''))
@@ -87,6 +87,45 @@ export async function listSaves() {
   return records
     .map(({ data, ...meta }) => ({ ...meta, current: !!build && meta.build === build }))
     .sort((a, b) => b.savedAt - a.savedAt);
+}
+
+const toBase64 = (blob) => new Promise((resolve, reject) => {
+  const r = new FileReader();
+  r.onload = () => resolve(String(r.result).split(',')[1]);
+  r.onerror = () => reject(r.error);
+  r.readAsDataURL(blob);
+});
+const fromBase64 = async (b64, type) => new Blob([await (await fetch(`data:${type};base64,${b64}`)).arrayBuffer()], { type });
+
+/** Every save in this browser for Export saves, the snapshot and picture as base64. */
+export async function exportSaves() {
+  let records;
+  try {
+    const db = await openDb();
+    records = await promisify(db.transaction(STORE, 'readonly').objectStore(STORE).getAll());
+  } catch {
+    return []; // no IndexedDB here
+  }
+  return Promise.all(records.map(async ({ data, thumb, ...meta }) => ({
+    ...meta, data: await toBase64(data), thumb: thumb ? await toBase64(thumb) : null,
+  })));
+}
+
+/**
+ * Saves from Export saves into this browser. A slot that already holds a newer save keeps it.
+ * Saves made by another build show as older versions, as usual. Returns how many were stored.
+ */
+export async function importSaves(list) {
+  let stored = 0;
+  for (const s of Array.isArray(list) ? list : []) {
+    if (!s || !/^(s[1-6]|quick|auto)$/.test(s.slot) || typeof s.data !== 'string') continue;
+    const have = await get(s.slot).catch(() => null);
+    if (have && have.savedAt >= s.savedAt) continue;
+    const record = { ...s, data: await fromBase64(s.data, 'application/gzip'), thumb: s.thumb ? await fromBase64(s.thumb, 'image/jpeg') : null };
+    await write((store) => store.put(record));
+    stored++;
+  }
+  return stored;
 }
 
 export async function deleteSave(slot) {

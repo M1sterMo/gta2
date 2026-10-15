@@ -2,17 +2,17 @@
 // in-memory filesystem, wires input and the renderer, and starts the core.
 // No game file leaves the device (R01); nothing is fetched from the network
 // except the port itself, or local files in ?devdata=1 developer mode.
-import createGta2 from './gta2.js';
-import { SAVE_KEY, SaveStates, listSaves, toast } from './savestate.js';
-import { SavesScreen, describe } from './saves.js';
-import { Gta2Renderer } from './renderer.js';
-import { SaveStorage } from './storage.js';
-import { Gta2Audio } from './audio.js';
-import { GameFileCache, downloadFreeware, unpackInstallerFile } from './gamefiles.js';
-import { Gta2Map } from './map.js';
-import { hideLanding, landingProgress, showContinue, showLanding, showLeaderboard } from './landing.js';
-import { CoopChat } from './chat.js';
-import { CoopLobby, DISTRICTS, GANGS, LocalTransport, MODES, ServerTransport, WebRtcTransport } from './net.js';
+import createGta2 from './gta2.js?v=855995e961';
+import { SAVE_KEY, SaveStates, listSaves, toast } from './savestate.js?v=855995e961';
+import { SavesScreen, describe } from './saves.js?v=855995e961';
+import { Gta2Renderer } from './renderer.js?v=855995e961';
+import { SaveStorage } from './storage.js?v=855995e961';
+import { Gta2Audio } from './audio.js?v=855995e961';
+import { GameFileCache, downloadFreeware, unpackInstallerFile } from './gamefiles.js?v=855995e961';
+import { Gta2Map } from './map.js?v=855995e961';
+import { hideLanding, landingProgress, showContinue, showLanding, showLeaderboard } from './landing.js?v=855995e961';
+import { CoopChat } from './chat.js?v=855995e961';
+import { CoopLobby, DISTRICTS, GANGS, LocalTransport, MODES, ServerTransport, WebRtcTransport } from './net.js?v=855995e961';
 
 const GAME_DIR = '/gta2';
 // Minimum set for the first district; a full profile check is T07's job.

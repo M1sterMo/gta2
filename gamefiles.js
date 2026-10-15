@@ -69,7 +69,7 @@ export async function unpackInstallerFile(file, onProgress) {
 }
 
 async function unpackInstaller(buf, onProgress) {
-  const worker = new Worker(new URL('./installer-worker.js', import.meta.url), { type: 'module' });
+  const worker = new Worker(new URL('./installer-worker.js?v=855995e961', import.meta.url), { type: 'module' });
   try {
     const files = await new Promise((resolve, reject) => {
       worker.onmessage = (e) => {

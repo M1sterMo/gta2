@@ -157,7 +157,7 @@ const APP_ID = 'gta2-browser-port-coop-1';
 export class WebRtcTransport {
   /** The room code is also the password that encrypts the connection set-up. */
   static async create(room) {
-    const { joinRoom, selfId } = await import('./vendor/trystero/torrent.mjs?v=1f4c77f19a');
+    const { joinRoom, selfId } = await import('./vendor/trystero/torrent.mjs?v=dd1c24b02d');
     return new WebRtcTransport(joinRoom, selfId, room);
   }
 

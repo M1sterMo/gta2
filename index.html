@@ -74,6 +74,8 @@
       font: 14px system-ui, sans-serif; padding: .45rem .6rem; border-radius: 6px; border: 1px solid #f5c518;
       background: rgba(10,10,12,.92); color: #fff; outline: none; }
     [hidden] { display: none !important; }
+    /* until shell.js picks the screen (landing page, lobby or folder picker), show none of them */
+    body.booting #picker { visibility: hidden; }
 
     /* ---- landing page (D21 front page) ---- */
     body.landing-on { overflow-y: auto; height: auto; min-height: 100%; }
@@ -232,7 +234,7 @@
       cursor: pointer; }
   </style>
 </head>
-<body>
+<body class="booting">
   <header id="topnav" hidden>
     <a class="logo" href="#top">GTA2<small>in your browser</small></a>
     <nav aria-label="Sections">
@@ -435,6 +437,6 @@
       <label>Import saves<input id="import-saves" type="file" accept="application/json,.json"></label>
     </div>
   </main>
-  <script type="module" src="shell.js?v=1f4c77f19a"></script>
+  <script type="module" src="shell.js?v=dd1c24b02d"></script>
 </body>
 </html>

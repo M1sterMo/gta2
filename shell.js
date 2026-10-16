@@ -2,17 +2,17 @@
 // in-memory filesystem, wires input and the renderer, and starts the core.
 // No game file leaves the device (R01); nothing is fetched from the network
 // except the port itself, or local files in ?devdata=1 developer mode.
-import createGta2 from './gta2.js?v=1f4c77f19a';
-import { SAVE_KEY, SaveStates, exportSaves, importSaves, listSaves, toast } from './savestate.js?v=1f4c77f19a';
-import { SavesScreen, describe } from './saves.js?v=1f4c77f19a';
-import { Gta2Renderer } from './renderer.js?v=1f4c77f19a';
-import { SaveStorage } from './storage.js?v=1f4c77f19a';
-import { Gta2Audio } from './audio.js?v=1f4c77f19a';
-import { GameFileCache, downloadFreeware, unpackInstallerFile } from './gamefiles.js?v=1f4c77f19a';
-import { Gta2Map, exportDiscovery, importDiscovery } from './map.js?v=1f4c77f19a';
-import { hideLanding, landingProgress, showContinue, showLanding, showLeaderboard } from './landing.js?v=1f4c77f19a';
-import { CoopChat } from './chat.js?v=1f4c77f19a';
-import { CoopLobby, DISTRICTS, GANGS, LocalTransport, MODES, ServerTransport, WebRtcTransport } from './net.js?v=1f4c77f19a';
+import createGta2 from './gta2.js?v=dd1c24b02d';
+import { SAVE_KEY, SaveStates, exportSaves, importSaves, listSaves, toast } from './savestate.js?v=dd1c24b02d';
+import { SavesScreen, describe } from './saves.js?v=dd1c24b02d';
+import { Gta2Renderer } from './renderer.js?v=dd1c24b02d';
+import { SaveStorage } from './storage.js?v=dd1c24b02d';
+import { Gta2Audio } from './audio.js?v=dd1c24b02d';
+import { GameFileCache, downloadFreeware, unpackInstallerFile } from './gamefiles.js?v=dd1c24b02d';
+import { Gta2Map, exportDiscovery, importDiscovery } from './map.js?v=dd1c24b02d';
+import { hideLanding, landingProgress, showContinue, showLanding, showLeaderboard } from './landing.js?v=dd1c24b02d';
+import { CoopChat } from './chat.js?v=dd1c24b02d';
+import { CoopLobby, DISTRICTS, GANGS, LocalTransport, MODES, ServerTransport, WebRtcTransport } from './net.js?v=dd1c24b02d';
 
 const GAME_DIR = '/gta2';
 // Minimum set for the first district; a full profile check is T07's job.
@@ -1008,6 +1008,7 @@ if (onSite && !pageParams.has('coop')) {
 } else {
   offerSavedFiles();
 }
+document.body.classList.remove('booting');
 
 /**
  * On our game server: the game files from this browser's copy when there is one,

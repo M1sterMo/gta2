@@ -16,7 +16,8 @@
 branch*, `main`, `/ (root)`. It goes live at `https://<you>.github.io/gta2/`. Any static host
 works too; serve the files as they are.
 
-This repo is the built site only and holds **no game files**. The engine is the
+This repo is the built site only and holds **no game files**. The source code and credits are
+in [M1sterMo/gta2-browser](https://github.com/M1sterMo/gta2-browser). The engine is the
 [gta2_re](https://github.com/CriminalRETeam/gta2_re) decompilation, compiled to WebAssembly.
 
 GTA2 is © Rockstar Games. This is an unofficial, non-commercial fan project, not affiliated

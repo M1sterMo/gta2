@@ -2,7 +2,7 @@
 // friends, the controls on a drawn keyboard, options and help. Layout in the
 // spirit of browser-game launchers such as Eaglercraft's; our own code and style.
 
-import { LOAD_KEY, SAVE_KEY } from './savestate.js?v=dd1c24b02d';
+import { LOAD_KEY, SAVE_KEY } from './savestate.js?v=0d9ff00566';
 
 // What each key does, by group (colour). Matches PORT_CONTROLS in shell.js
 // and the shell's own keys (map, scoreboard, view distance).

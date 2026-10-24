@@ -2,20 +2,20 @@
 // in-memory filesystem, wires input and the renderer, and starts the core.
 // No game file leaves the device (R01); nothing is fetched from the network
 // except the port itself, or local files in ?devdata=1 developer mode.
-import createGta2 from './gta2.js?v=bc2f50ac33';
-import { SAVE_KEY, SaveStates, exportSaves, importSaves, listSaves, toast } from './savestate.js?v=bc2f50ac33';
-import { SavesScreen, describe } from './saves.js?v=bc2f50ac33';
-import { ControlsScreen } from './controls.js?v=bc2f50ac33';
-import { Gta2Renderer } from './renderer.js?v=bc2f50ac33';
-import { SaveStorage } from './storage.js?v=bc2f50ac33';
-import { Gta2Audio } from './audio.js?v=bc2f50ac33';
-import { GameFileCache, downloadFreeware, unpackInstallerFile } from './gamefiles.js?v=bc2f50ac33';
-import { Gta2Map, exportDiscovery, importDiscovery } from './map.js?v=bc2f50ac33';
-import { hideLanding, landingProgress, showContinue, showLanding, showLeaderboard } from './landing.js?v=bc2f50ac33';
-import { count, initStats, startPlayClock } from './stats.js?v=bc2f50ac33';
-import { CoopChat } from './chat.js?v=bc2f50ac33';
-import { GamepadInput } from './gamepad.js?v=bc2f50ac33';
-import { CoopLobby, DISTRICTS, GANGS, LocalTransport, MODES, ServerTransport, WebRtcTransport } from './net.js?v=bc2f50ac33';
+import createGta2 from './gta2.js?v=3c32e7c84b';
+import { SAVE_KEY, SaveStates, exportSaves, importSaves, listSaves, toast } from './savestate.js?v=3c32e7c84b';
+import { SavesScreen, describe } from './saves.js?v=3c32e7c84b';
+import { ControlsScreen } from './controls.js?v=3c32e7c84b';
+import { Gta2Renderer } from './renderer.js?v=3c32e7c84b';
+import { SaveStorage } from './storage.js?v=3c32e7c84b';
+import { Gta2Audio } from './audio.js?v=3c32e7c84b';
+import { GameFileCache, downloadFreeware, unpackInstallerFile } from './gamefiles.js?v=3c32e7c84b';
+import { Gta2Map, exportDiscovery, importDiscovery } from './map.js?v=3c32e7c84b';
+import { hideLanding, landingProgress, showContinue, showLanding, showLeaderboard } from './landing.js?v=3c32e7c84b';
+import { count, initStats, startPlayClock } from './stats.js?v=3c32e7c84b';
+import { CoopChat } from './chat.js?v=3c32e7c84b';
+import { GamepadInput } from './gamepad.js?v=3c32e7c84b';
+import { CoopLobby, DISTRICTS, GANGS, LocalTransport, MODES, ServerTransport, WebRtcTransport } from './net.js?v=3c32e7c84b';
 
 const GAME_DIR = '/gta2';
 // Minimum set for the first district; a full profile check is T07's job.
@@ -492,16 +492,20 @@ const RADIO_KEY = 'gta2-port-radio';
 /**
  * Radio keys: R turns the car radio on or off (kept in this browser); T is the game's own
  * F1, the next station (single player; in co-op T opens the chat). Returns the key filter.
+ * inCar: whether the player is in a car. On foot the same station files play from places in the
+ * city, so R leaves them alone there.
  */
-function wireRadioKeys(Module, audio, coop) {
+function wireRadioKeys(Module, audio, coop, inCar) {
   const key = Module.cwrap('gta2_port_key', null, ['number', 'number', 'number', 'number']);
   let on = true;
   try { on = localStorage.getItem(RADIO_KEY) !== '0'; } catch { /* storage unavailable */ }
   audio.setRadio(on);
+  setInterval(() => audio.setInCar(inCar()), 200);
   return (e, down) => {
     const mod = e.metaKey || e.ctrlKey || e.altKey;
     if (e.code === 'KeyR' && !mod) {
-      if (down && !e.repeat) {
+      if (down && !e.repeat && !inCar()) toast('The radio is in cars: get in one, then press R');
+      else if (down && !e.repeat) {
         on = !on;
         audio.setRadio(on);
         try { localStorage.setItem(RADIO_KEY, on ? '1' : '0'); } catch { /* storage unavailable */ }
@@ -905,7 +909,7 @@ async function start(getFiles, { cacheAfterStart = false, coop = null, loadSlot 
     } else {
       $('saves-open').hidden = true;
     }
-    const radioKeys = wireRadioKeys(Module, audio, coop);
+    const radioKeys = wireRadioKeys(Module, audio, coop, () => !!(map.last && map.last.inCar));
     // The Controls screen: the game menu's Options (which launched GTA2 Manager) and the toolbar.
     const controls = new ControlsScreen({
       Module, keys: KEYS, defaults: PORT_CONTROLS, regPath: `${REG_ROOT}\\control`,

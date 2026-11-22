@@ -3,10 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title data-i18n="ui.docTitle">GTA2 in your browser</title>
+  <title>Aubuli's Gta 2</title>
+  <meta name="description" content="Play Grand Theft Auto 2 in your browser at Aubuli.com — single player, multiplayer, maps and more.">
+  <meta name="theme-color" content="#091326">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root { color-scheme: dark; --bg: #0b0b0d; --fg: #e8e6e3; --muted: #9a978f; --accent: #e63946; }
     html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg);
@@ -255,11 +257,261 @@
     #freeware a { color: var(--fg); }
     #forget-files { margin-left: .6rem; background: none; border: 0; color: var(--muted); text-decoration: underline;
       cursor: pointer; }
+  /* ================================================================
+     AUBULI'S GTA 2 — Visual rebrand
+     Pure presentation. All canvas, gameplay controls, input IDs, data
+     hooks, scripts, multiplayer behavior, saves, and game assets retain
+     their original structure. Overrides target the site chrome only.
+     ================================================================ */
+  :root {
+    color-scheme: dark;
+    --bg: #080f20;
+    --fg: #eff5ff;
+    --muted: #9cabca;
+    --accent: #36d3d9;
+    --aubuli-surface: #121f3a;
+    --aubuli-surface-alt: #152440;
+    --aubuli-border: rgba(145, 178, 233, .18);
+    --aubuli-cyan: #36d3d9;
+    --aubuli-purple: #9383ff;
+    --aubuli-glow: rgba(54, 211, 217, .21);
+  }
+  html, body { background: var(--bg); color: var(--fg); font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; }
+  body.landing-on {
+    background:
+      radial-gradient(ellipse 60% 38% at 11% 3%, rgba(41, 124, 195, .20), transparent 77%),
+      radial-gradient(ellipse 48% 34% at 94% 17%, rgba(108, 81, 209, .18), transparent 78%),
+      linear-gradient(180deg, #091327 0%, #080f20 72%, #0b1630 100%);
+    background-attachment: fixed;
+  }
+  ::selection { background: rgba(54, 211, 217, .30); color: #fff; }
+  :focus-visible { outline: 2px solid var(--aubuli-cyan); outline-offset: 3px; }
+
+  /* Navigation, logo and first impression */
+  #topnav {
+    top: .85rem;
+    margin-top: .85rem;
+    width: min(1140px, calc(100% - 2rem));
+    padding: .85rem 1.15rem;
+    border-radius: 18px;
+    border: 1px solid rgba(128, 171, 241, .20);
+    background: rgba(12, 25, 50, .88);
+    box-shadow: 0 14px 55px rgba(1, 6, 18, .26), inset 0 1px 0 rgba(255,255,255,.055);
+    backdrop-filter: blur(18px);
+  }
+  #topnav .logo {
+    font: 800 20px/1.15 Inter, system-ui, sans-serif;
+    color: #fff;
+    letter-spacing: -.045em;
+    text-shadow: none;
+    white-space: nowrap;
+  }
+  #topnav .logo .brand-game { color: var(--aubuli-cyan); }
+  #topnav .logo small {
+    display: block;
+    margin: .2rem 0 0;
+    font: 600 10px/1 Inter, system-ui, sans-serif;
+    color: #849ac0;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+  }
+  #topnav nav { gap: .3rem; }
+  #topnav nav a {
+    color: #b9c8e4;
+    font-weight: 600;
+    border-radius: 10px;
+    transition: background .15s ease, color .15s ease;
+  }
+  #topnav nav a:hover { background: rgba(85, 151, 224, .14); color: #fff; }
+  #landing { width: min(1140px, calc(100% - 2rem)); gap: 1.35rem; }
+  .card {
+    background: linear-gradient(160deg, rgba(22, 38, 69, .96), rgba(12, 25, 49, .97));
+    border: 1px solid var(--aubuli-border);
+    border-radius: 20px;
+    box-shadow: 0 12px 36px rgba(0, 5, 19, .16), inset 0 1px 0 rgba(255,255,255,.045);
+  }
+  .hero { gap: 1.35rem; }
+  .hero-shot { border-radius: 20px; isolation: isolate; }
+  .hero-shot::after {
+    content: "";
+    position: absolute; inset: 0;
+    pointer-events: none;
+    background: linear-gradient(0deg, rgba(5, 15, 34, .65), transparent 53%);
+  }
+  .hero-shot img { filter: saturate(.92) contrast(1.05); }
+  .hero-shot .tag {
+    z-index: 1;
+    color: #fff;
+    background: rgba(10, 22, 45, .78);
+    border: 1px solid rgba(113, 205, 229, .25);
+    box-shadow: 0 10px 28px rgba(0,0,0,.25);
+    font: 800 14px Inter, system-ui, sans-serif;
+    letter-spacing: .02em;
+    text-shadow: none;
+  }
+  .hero-side { padding: clamp(1.25rem, 3vw, 2.4rem); gap: 1.05rem; }
+  .aubuli-eyebrow {
+    display: inline-flex;
+    align-self: flex-start;
+    align-items: center;
+    gap: .5rem;
+    margin: 0;
+    color: #76dfe3 !important;
+    font: 800 10px/1.5 Inter, system-ui, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .18em;
+  }
+  .aubuli-eyebrow::before {
+    content: "";
+    width: 7px; height: 7px;
+    background: var(--aubuli-cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 14px var(--aubuli-cyan);
+  }
+  .hero-side h1 {
+    color: #fff;
+    font: 800 clamp(36px, 4.4vw, 58px)/1.03 Inter, system-ui, sans-serif;
+    letter-spacing: -.065em;
+    text-shadow: none;
+  }
+  .hero-side h1 span {
+    background: linear-gradient(100deg, #44dfdf, #96abff 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-side p:not(.aubuli-eyebrow) { color: #b9c7e2; line-height: 1.7; }
+  #files-state { color: #83e4c5; }
+  #files-bar { accent-color: var(--aubuli-cyan); }
+
+  /* Action buttons — visual only; existing click handlers remain */
+  .btn {
+    font: 800 12px/1.15 Inter, system-ui, sans-serif;
+    letter-spacing: .065em;
+    padding: .85rem 1.25rem;
+    border-radius: 12px;
+    color: #061624;
+    background: linear-gradient(115deg, #37d6dd, #66d7f2);
+    box-shadow: 0 4px 0 #158eab, 0 12px 24px rgba(26, 195, 211, .12);
+    transition: filter .15s ease, box-shadow .15s ease, transform .15s ease;
+  }
+  .btn:hover { filter: brightness(1.09); box-shadow: 0 4px 0 #158eab, 0 14px 32px rgba(26, 195, 211, .22); }
+  .btn:active { box-shadow: 0 1px 0 #158eab; }
+  .btn.alt { background: linear-gradient(110deg, #9b8bff, #bc97ff); color: #110b25; box-shadow: 0 4px 0 #5b4cba; }
+  .btn.alt:active { box-shadow: 0 1px 0 #5b4cba; }
+  .btn.ghost { background: #233553; color: #ecf4ff; box-shadow: 0 4px 0 #15223a; border: 1px solid rgba(171, 198, 236, .15); }
+  .btn.ghost:active { box-shadow: 0 1px 0 #15223a; }
+  label.button, #play-saved { background: var(--aubuli-cyan); color: #0a182a; }
+  label.button.secondary { color: #bfeff6; border-color: var(--aubuli-cyan); background: rgba(54,211,217,.055); }
+
+  /* Cards, headings, nav, controls/options and FAQ */
+  .mode { transition: transform .17s ease, border-color .17s ease, box-shadow .17s ease; }
+  .mode:hover { transform: translateY(-3px); border-color: rgba(54,211,217,.34); box-shadow: 0 15px 32px rgba(1,6,19,.25); }
+  .mode h2, .section-title { font-family: Inter, system-ui, sans-serif; font-weight: 800; letter-spacing: -.035em; text-shadow: none; }
+  .mode h2 { font-size: 20px; }
+  .section-title { font-size: 25px; }
+  .mode p, .section-sub, .faq p, .landing-foot { color: #aabbd9; }
+  .mode .pill {
+    color: #b9d1ed;
+    background: rgba(55, 102, 161, .17);
+    border: 1px solid rgba(127, 167, 229, .12);
+    font-weight: 700;
+  }
+  .kb, .pad-wrap { background: #0c1931; border-color: var(--aubuli-border); }
+  .kb-key { background: #1a2a47; border-color: #2b4063; color: #96a8c4; }
+  .kb-key.lit { background: color-mix(in srgb, var(--c) 14%, #1a2a47); }
+  .pad-body { fill: #1a2a47; stroke: #3a4b6c; }
+  .pad-part { fill: #263856; stroke: #485b7d; }
+  .legend kbd { background: #233553; border-color: #364b71; color: #f0f5ff; }
+  .legend .does { color: #bfd0e8; }
+  .opt { border-bottom-color: rgba(146,180,233,.15); }
+  .opt-label small { color: #91a4c4; }
+  .seg { background: #0c1930; border-color: rgba(143,182,231,.20); }
+  .seg button { color: #aab9d5; }
+  .seg button[aria-checked="true"], .seg button[aria-selected="true"] { background: var(--aubuli-cyan); color: #0a1b2b; }
+  .board th, .board .members { color: #98acca; }
+  .board td { border-bottom-color: rgba(130,170,223,.1); }
+  .board th { border-bottom-color: rgba(130,170,223,.20); }
+  .board .rank, .save-slot, .saves-head h2 { color: var(--aubuli-cyan); }
+  .board .rep { color: #91e4b1; }
+  .faq details { background: rgba(10, 24, 48, .76); border-color: var(--aubuli-border); }
+  .faq details[open] { border-color: rgba(54,211,217,.28); }
+  .faq summary { color: #f0f6ff; }
+  .faq a, .landing-foot a { color: #65d9ec; }
+  .landing-foot { padding: 1.2rem 0 0; }
+  .landing-foot::before {
+    content: "Aubuli's Gta 2  •  aubuli.com";
+    display: block;
+    font-weight: 700;
+    color: #8aa6ca;
+    margin-bottom: .45rem;
+  }
+
+  /* Folder picker and multiplayer lobby */
+  #picker:not([hidden]) {
+    border: 1px solid rgba(145, 178, 233, .22);
+    border-radius: 20px;
+    padding: clamp(1.3rem, 3vw, 2rem);
+    background: linear-gradient(145deg, #13223f, #0d1a32);
+    box-shadow: 0 20px 55px rgba(0, 5, 19, .26);
+  }
+  #picker h1 { font: 800 28px/1.2 Inter, system-ui, sans-serif; letter-spacing: -.04em; }
+  #picker p { color: #b0c1dd; }
+  #coop input, #coop select { background: #0c1930; border-color: #3d5477; color: #f2f6ff; }
+  #coop button { border-color: var(--aubuli-cyan); }
+  #coop button.primary { background: var(--aubuli-cyan); color: #0b1727; }
+  .on-site #picker:has(#coop:not([hidden])) { background: #101e39; border-color: var(--aubuli-border); }
+  .on-site #coop button { background: #213552; border-color: #3c5678; }
+  .on-site #coop button.primary {
+    background: var(--aubuli-cyan); color: #0a1c2b;
+    box-shadow: 0 3px 0 #138da3;
+    font-family: Inter, system-ui, sans-serif;
+    font-weight: 800;
+  }
+  .on-site #coop-join { background: #9b8bff !important; color: #150f30 !important; box-shadow: 0 3px 0 #6252ba; }
+  #coop-crews .crew, #coop-results { background: #0e1b34; border-color: var(--aubuli-border); }
+  #freeware, #saved { border-top-color: var(--aubuli-border); border-bottom-color: var(--aubuli-border); }
+
+  /* In-game menus: recolor panels, without moving the game or its HUD */
+  .saves-panel { background: #111f3b; color: #eef4ff; border-color: var(--aubuli-border); }
+  .save-card, .controls-row { background: #182947; border-color: #354b6e; }
+  .save-blank { background: #0a1529; }
+  .save-actions button, .controls-row button, .controls-actions button { background: #243857; border-color: #3e577d; color: #eff5ff; }
+  .save-actions button.primary, .controls-actions button.primary {
+    background: var(--aubuli-cyan); border-color: var(--aubuli-cyan); color: #0a1726;
+  }
+  .save-actions button.armed { background: #b3261e; border-color: #b3261e; color: #fff; }
+  .controls-row button.waiting { border-color: var(--aubuli-cyan); color: var(--aubuli-cyan); }
+  #chat-input { border-color: var(--aubuli-cyan); }
+  #tools button[aria-pressed="true"] { border-color: var(--aubuli-cyan); }
+
+  @media (max-width: 900px) {
+    #topnav { padding: .7rem .85rem; }
+    #topnav .logo { font-size: 17px; }
+    .hero-side h1 { font-size: clamp(33px, 7vw, 48px); }
+    .hero-shot { min-height: 205px; }
+  }
+  @media (max-width: 520px) {
+    #topnav { gap: .4rem; width: calc(100% - 1rem); }
+    #topnav .logo small { font-size: 8px; }
+    #topnav > .btn { padding: .7rem .8rem; font-size: 11px; }
+    #landing { width: calc(100% - 1rem); }
+    .hero-side { padding: 1.2rem; }
+    .card { border-radius: 16px; padding: 1rem; }
+    .hero-shot { padding: 0; }
+    .hero-side h1 { font-size: 34px; }
+    .mode:hover { transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mode, .btn { transition: none; }
+    .mode:hover { transform: none; }
+  }
+
   </style>
 </head>
 <body class="booting">
   <header id="topnav" hidden>
-    <a class="logo" href="#top">GTA2<small data-i18n="ui.logo.tagline">in your browser</small></a>
+    <a class="logo" href="#top">Aubuli's <span class="brand-game">Gta 2</span><small>by aubuli.com</small></a>
     <nav data-i18n-aria="ui.nav.sections" aria-label="Sections">
       <a href="#play" data-i18n="ui.nav.play">Play</a><a href="#crews" data-i18n="ui.nav.crews">Crews</a><a href="#controls" data-i18n="ui.nav.controls">Controls</a><a href="#options" data-i18n="ui.nav.options">Options</a><a href="#help" data-i18n="ui.nav.help">Help</a>
     </nav>
@@ -275,7 +527,8 @@
           <span class="tag" data-i18n="ui.hero.tag">Respect is everything</span>
         </div>
         <div class="card hero-side">
-          <h1 data-i18n="ui.hero.title">GTA2 in your <span>browser</span></h1>
+          <p class="aubuli-eyebrow">AUBULI.COM / BROWSER ARCADE</p>
+          <h1>Aubuli's <span>Gta 2</span></h1>
           <p data-i18n="ui.hero.lead">The real 1999 game, running in your browser on any computer. Nothing to install. Widescreen,
             smooth at your screen's refresh rate, a full map, and co-op with friends.</p>
           <progress id="files-bar" max="1" value="0"></progress>
@@ -380,7 +633,7 @@
         · Grand Theft Auto 2 © Rockstar Games</p>
     </div>
     <section id="picker">
-      <h1 data-i18n="ui.picker.title">GTA2 in the browser</h1>
+      <h1>Aubuli's Gta 2</h1>
       <p data-i18n="ui.picker.intro">Choose your installed GTA2 folder (the one containing <code>data</code>). Your game files are read
         locally and never leave this computer.</p>
       <div id="coop" hidden>
